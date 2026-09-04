@@ -1,0 +1,1920 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NEXA Premium Marketplace</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          14px Inter,
+          system-ui;
+        background: #f5f7fb;
+        color: #182033;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+      .side {
+        position: fixed;
+        width: 250px;
+        inset: 0 auto 0 0;
+        background: #101526;
+        color: #b9c1d2;
+        padding: 20px 14px;
+      }
+      .logo {
+        font-size: 26px;
+        font-weight: 900;
+        color: #fff;
+        padding: 8px 12px 25px;
+      }
+      .logo i {
+        color: #756cff;
+      }
+      .side small {
+        display: block;
+        color: #667089;
+        font-size: 10px;
+        text-transform: uppercase;
+        padding: 13px 12px 5px;
+      }
+      .nav {
+        display: block;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: #adb6c9;
+        text-align: left;
+        padding: 10px 12px;
+        border-radius: 9px;
+        margin: 2px 0;
+      }
+      .nav:hover,
+      .nav.on {
+        background: #ffffff12;
+        color: #fff;
+      }
+      .main {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+      }
+      .top {
+        height: 70px;
+        background: #fff;
+        border-bottom: 1px solid #e7eaf0;
+        padding: 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+      }
+      .search {
+        width: 310px;
+        border: 1px solid #e1e5ed;
+        border-radius: 10px;
+        padding: 10px 13px;
+      }
+      .page {
+        display: none;
+        padding: 28px;
+        max-width: 1450px;
+        margin: auto;
+      }
+      .page.on {
+        display: block;
+      }
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .title h1 {
+        margin: 0 0 4px;
+        font-size: 28px;
+      }
+      .muted {
+        color: #718097;
+      }
+      .btn {
+        border: 0;
+        border-radius: 9px;
+        padding: 10px 15px;
+        font-weight: 750;
+      }
+      .primary {
+        background: #635bff;
+        color: white;
+      }
+      .soft {
+        background: #eeedff;
+        color: #5048df;
+      }
+      .outline {
+        background: #fff;
+        border: 1px solid #e2e6ee;
+      }
+      .danger {
+        background: #ffecec;
+        color: #c52626;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 18px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e5e8ef;
+        border-radius: 15px;
+        padding: 19px;
+        box-shadow: 0 10px 30px #1720330b;
+      }
+      .stat .label {
+        color: #718097;
+      }
+      .stat strong {
+        display: block;
+        font-size: 26px;
+        margin: 7px 0;
+      }
+      .up {
+        color: #0a9b6d;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 17px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+      .section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .section h3 {
+        margin: 0;
+      }
+      .tablewrap {
+        overflow: auto;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table th,
+      .table td {
+        padding: 12px 9px;
+        text-align: left;
+        border-bottom: 1px solid #edf0f4;
+        white-space: nowrap;
+      }
+      .table th {
+        color: #718097;
+        font-size: 12px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        background: #eef1f6;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .ok {
+        background: #e8faf3;
+        color: #07865e;
+      }
+      .warn {
+        background: #fff5da;
+        color: #a26900;
+      }
+      .blue {
+        background: #eeefff;
+        color: #5048df;
+      }
+      .purple {
+        background: #f4eaff;
+        color: #783bb4;
+      }
+      .progress {
+        height: 8px;
+        background: #edf0f5;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .progress i {
+        display: block;
+        height: 100%;
+        background: #635bff;
+      }
+      .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #edf0f4;
+      }
+      .item:last-child {
+        border: 0;
+      }
+      .chart {
+        height: 220px;
+        display: flex;
+        align-items: end;
+        gap: 12px;
+        padding: 20px 5px;
+      }
+      .bar {
+        flex: 1;
+        background: #756fff;
+        border-radius: 6px 6px 2px 2px;
+      }
+      .form {
+        display: grid;
+        gap: 14px;
+      }
+      .fg {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      .field label {
+        font-size: 12px;
+        font-weight: 700;
+        color: #59657b;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        border: 1px solid #e1e5ed;
+        border-radius: 9px;
+        padding: 10px 12px;
+        background: #fff;
+      }
+      .field textarea {
+        min-height: 110px;
+      }
+      .hero {
+        background: linear-gradient(135deg, #13192d, #302a68);
+        color: white;
+      }
+      .hero .money {
+        font-size: 38px;
+        font-weight: 900;
+      }
+      .profile {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .ava {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #eeecff;
+        color: #5048df;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .landing {
+        min-height: 100vh;
+        background: white;
+      }
+      .lnav {
+        height: 74px;
+        border-bottom: 1px solid #e7eaf0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 7%;
+      }
+      .links {
+        display: flex;
+        gap: 25px;
+        color: #657087;
+      }
+      .lh {
+        padding: 75px 7%;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 50px;
+        align-items: center;
+        background: radial-gradient(
+          circle at 90% 10%,
+          #e8e6ff,
+          transparent 35%
+        );
+      }
+      .lh h1 {
+        font-size: 58px;
+        line-height: 1.02;
+        margin: 15px 0;
+      }
+      .lh p {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #718097;
+      }
+      .mock {
+        background: #11172a;
+        padding: 18px;
+        border-radius: 22px;
+      }
+      .mockin {
+        background: #fff;
+        border-radius: 15px;
+        padding: 18px;
+      }
+      .mini {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+      }
+      .mini div {
+        background: #f5f7fb;
+        padding: 15px;
+        border-radius: 10px;
+      }
+      .features {
+        padding: 65px 7%;
+      }
+      .features h2 {
+        text-align: center;
+        font-size: 34px;
+      }
+      .fg4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+      .feature {
+        border: 1px solid #e5e8ef;
+        border-radius: 15px;
+        padding: 20px;
+      }
+      .toast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #101526;
+        color: #fff;
+        padding: 13px 17px;
+        border-radius: 10px;
+        display: none;
+        z-index: 20;
+      }
+      @media (max-width: 1050px) {
+        .cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .grid2,
+        .lh {
+          grid-template-columns: 1fr;
+        }
+        .fg4 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 750px) {
+        .side {
+          display: none;
+        }
+        .main {
+          margin: 0;
+          width: 100%;
+        }
+        .page {
+          padding: 18px;
+        }
+        .top {
+          padding: 0 14px;
+        }
+        .search {
+          width: 180px;
+        }
+        .cards,
+        .grid3,
+        .fg,
+        .fg4 {
+          grid-template-columns: 1fr;
+        }
+        .links {
+          display: none;
+        }
+        .lh {
+          padding: 50px 5%;
+        }
+        .lh h1 {
+          font-size: 42px;
+        }
+        .features {
+          padding: 45px 5%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="landing" class="landing">
+      <nav class="lnav">
+        <div class="logo" style="color: #182033; padding: 0">NEXA<i>.</i></div>
+        <div class="links">
+          <span>Find Work</span><span>Services</span><span>Learn</span
+          ><span>How it works</span>
+        </div>
+        <button class="btn primary" onclick="openApp('dashboard')">
+          Open Demo
+        </button>
+      </nav>
+      <section class="lh">
+        <div>
+          <span class="badge purple">NEXT-GEN INCOME MARKETPLACE</span>
+          <h1>
+            Turn your
+            <span style="color: #635bff">time, skills & route</span> into
+            income.
+          </h1>
+          <p>
+            Premium marketplace UI for customers, providers, micro-task workers
+            and route-based delivery partners. Built around Earn → Hire → Learn,
+            smart matching, trust and protected payments.
+          </p>
+          <button class="btn primary" onclick="openApp('dashboard')">
+            Explore Dashboard →
+          </button>
+        </div>
+        <div class="mock">
+          <div class="mockin">
+            <b>Good evening, Rashed 👋</b>
+            <div class="card hero" style="margin-top: 15px">
+              <span class="muted">This month extra income</span>
+              <div class="money">৳12,450</div>
+              <span class="muted">↑ 18% from last month</span>
+            </div>
+            <div class="mini">
+              <div>Jobs<br /><b>18</b></div>
+              <div>Match<br /><b>92%</b></div>
+              <div>Trust<br /><b>94</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="features">
+        <h2>One marketplace. Multiple income paths.</h2>
+        <div class="fg4">
+          <div class="feature">
+            <h3>💼 Skill</h3>
+            <p class="muted">Offer professional services and complete jobs.</p>
+          </div>
+          <div class="feature">
+            <h3>🛣️ Route</h3>
+            <p class="muted">Earn from zero-detour PUDO deliveries.</p>
+          </div>
+          <div class="feature">
+            <h3>⏱️ Time</h3>
+            <p class="muted">Monetize free hours with micro tasks.</p>
+          </div>
+          <div class="feature">
+            <h3>📚 Learn</h3>
+            <p class="muted">Learn, practice and unlock paid work.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div id="app" class="app" style="display: none">
+      <aside class="side">
+        <div class="logo">NEXA<i>.</i></div>
+        <small>Overview</small>
+        <button class="nav" data-p="dashboard" onclick="go('dashboard')">
+          ⌂ Dashboard</button
+        ><button class="nav" data-p="provider" onclick="go('provider')">
+          ◈ Provider Dashboard</button
+        ><button class="nav" data-p="customer" onclick="go('customer')">
+          ◉ Customer Dashboard
+        </button>
+        <small>Marketplace</small
+        ><button class="nav" data-p="jobs" onclick="go('jobs')">▣ Jobs</button
+        ><button class="nav" data-p="services" onclick="go('services')">
+          ◇ Services</button
+        ><button class="nav" data-p="matching" onclick="go('matching')">
+          ✦ Smart Matching</button
+        ><button class="nav" data-p="deliveries" onclick="go('deliveries')">
+          ▱ Deliveries / PUDO
+        </button>
+        <small>Finance</small
+        ><button class="nav" data-p="wallet" onclick="go('wallet')">
+          ৳ Wallet</button
+        ><button class="nav" data-p="transactions" onclick="go('transactions')">
+          ⇄ Transactions</button
+        ><button class="nav" data-p="chat" onclick="go('chat')">◌ Chat</button
+        ><button
+          class="nav"
+          data-p="notifications"
+          onclick="go('notifications')"
+        >
+          ♧ Notifications
+        </button>
+        <small>Account</small
+        ><button class="nav" data-p="profile" onclick="go('profile')">
+          ● Profile</button
+        ><button class="nav" data-p="settings" onclick="go('settings')">
+          ⚙ Settings
+        </button>
+        <small>Administration</small
+        ><button class="nav" data-p="admin" onclick="go('admin')">
+          ▦ Admin Dashboard</button
+        ><button class="nav" data-p="users" onclick="go('users')">
+          ♙ User Management</button
+        ><button class="nav" data-p="verification" onclick="go('verification')">
+          ✓ Verification</button
+        ><button class="nav" data-p="disputes" onclick="go('disputes')">
+          ! Disputes</button
+        ><button class="nav" data-p="reports" onclick="go('reports')">
+          ◒ Reports
+        </button>
+      </aside>
+      <main class="main">
+        <header class="top">
+          <input
+            class="search"
+            placeholder="Search jobs, users, services..."
+          /><button class="btn outline" onclick="go('notifications')">
+            🔔 3
+          </button>
+        </header>
+
+        <section class="page" id="dashboard">
+          <div class="title">
+            <div>
+              <div class="muted">Overview / Dashboard</div>
+              <h1>Good evening, Rashed 👋</h1>
+              <p class="muted">Your marketplace activity at a glance.</p>
+            </div>
+            <button class="btn primary" onclick="go('create-job')">
+              + Post a Job
+            </button>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">Available Balance</span
+              ><strong>৳28,450</strong><span class="up">↑ 12.8%</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Active Jobs</span><strong>18</strong
+              ><span class="up">+4 this week</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Profile Match</span><strong>92%</strong
+              ><span class="up">Excellent</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Trust Score</span><strong>94/100</strong
+              ><span class="up">Top 8%</span>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <div class="section">
+                <h3>Earnings Overview</h3>
+                <span class="badge ok">+18.4%</span>
+              </div>
+              <div class="chart">
+                <i class="bar" style="height: 35%"></i
+                ><i class="bar" style="height: 50%"></i
+                ><i class="bar" style="height: 42%"></i
+                ><i class="bar" style="height: 68%"></i
+                ><i class="bar" style="height: 55%"></i
+                ><i class="bar" style="height: 82%"></i
+                ><i class="bar" style="height: 72%"></i
+                ><i class="bar" style="height: 95%"></i>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section">
+                <h3>Smart Matches</h3>
+                <button class="btn soft" onclick="go('matching')">
+                  View all
+                </button>
+              </div>
+              <div class="item"><span>📦 Gulshan → Demra</span><b>98%</b></div>
+              <div class="item"><span>📊 Excel Task</span><b>95%</b></div>
+              <div class="item">
+                <span>📑 Tax Documentation</span><b>92%</b>
+              </div>
+              <div class="item"><span>🎨 Design Request</span><b>87%</b></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top: 17px">
+            <h3>Recent Jobs</h3>
+            <div class="tablewrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Job</th>
+                    <th>Customer</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                    <th>Match</th>
+                  </tr>
+                </thead>
+                <tbody id="jobs1"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="provider">
+          <div class="title">
+            <div>
+              <h1>Provider Dashboard</h1>
+              <p class="muted">Manage capacity, services and jobs.</p>
+            </div>
+            <button class="btn primary" onclick="go('services')">
+              Manage Services
+            </button>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">This Month</span><strong>৳46,800</strong
+              ><span class="up">↑18%</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Completed</span><strong>87</strong
+              ><span class="up">4.9 rating</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Repeat Clients</span><strong>63%</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Available</span><strong>4h</strong
+              ><span class="up">Today</span>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h3>My Capacity</h3>
+              <div class="item">
+                <span>🛣️ Route</span><b>Demra ↔ Gulshan</b>
+              </div>
+              <div class="item">
+                <span>⏱️ Free time</span><b>7 PM - 10 PM</b>
+              </div>
+              <div class="item"><span>💻 Assets</span><b>Bike + Laptop</b></div>
+              <div class="item">
+                <span>🧠 Skills</span><b>Excel, Tax, Design</b>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Profile Health</h3>
+              <p class="muted">94% complete</p>
+              <div class="progress"><i style="width: 94%"></i></div>
+              <div class="item">
+                <span>Identity</span><b class="up">Verified</b>
+              </div>
+              <div class="item">
+                <span>Skills</span><b class="up">3 verified</b>
+              </div>
+              <div class="item"><span>Reliability</span><b>94/100</b></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="customer">
+          <div class="title">
+            <div>
+              <h1>Customer Dashboard</h1>
+              <p class="muted">Requests, providers and spending.</p>
+            </div>
+            <button class="btn primary" onclick="go('create-job')">
+              + Create Request
+            </button>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">Active Requests</span><strong>7</strong
+              ><span class="up">3 awaiting offers</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Providers Hired</span><strong>24</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Total Spent</span><strong>৳1.84L</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Avg Rating</span><strong>4.8</strong>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h3>Active Requests</h3>
+              <div class="item">
+                <span
+                  >Tax Return Documentation<br /><small class="muted"
+                    >7 matches · ৳1,500</small
+                  ></span
+                ><span class="badge blue">MATCHING</span>
+              </div>
+              <div class="item">
+                <span
+                  >Presentation Design<br /><small class="muted"
+                    >2 offers · ৳900</small
+                  ></span
+                ><span class="badge warn">OFFERS</span>
+              </div>
+              <div class="item">
+                <span
+                  >AC Maintenance<br /><small class="muted"
+                    >Provider assigned</small
+                  ></span
+                ><span class="badge ok">ACTIVE</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Recommended Providers</h3>
+              <div class="item">
+                <span>👤 Nabila · Design · ⭐4.9</span><b>96%</b>
+              </div>
+              <div class="item">
+                <span>👤 Rashed · Excel · ⭐4.9</span><b>92%</b>
+              </div>
+              <div class="item">
+                <span>👤 Arif · IT · ⭐4.8</span><b>89%</b>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="jobs">
+          <div class="title">
+            <div>
+              <h1>Browse Jobs</h1>
+              <p class="muted">10 realistic opportunities.</p>
+            </div>
+            <button class="btn primary" onclick="go('create-job')">
+              + Post Job
+            </button>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Job</th>
+                  <th>Category</th>
+                  <th>Budget</th>
+                  <th>Location</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="jobs2"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="services">
+          <div class="title">
+            <div>
+              <h1>Services Marketplace</h1>
+              <p class="muted">Browse and manage provider services.</p>
+            </div>
+            <button class="btn primary" onclick="go('create-service')">
+              + Create Service
+            </button>
+          </div>
+          <div class="grid3" id="servicesGrid"></div>
+        </section>
+        <section class="page" id="matching">
+          <div class="title">
+            <div>
+              <h1>Smart Matching</h1>
+              <p class="muted">
+                Capacity + skill + route + time based matching.
+              </p>
+            </div>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">Matches Today</span><strong>1,284</strong
+              ><span class="up">↑22%</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Avg Score</span><strong>91.6%</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Accepted</span><strong>68%</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Zero Detour</span><strong>74%</strong>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Opportunity</th>
+                  <th>Provider</th>
+                  <th>Skill</th>
+                  <th>Route</th>
+                  <th>Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tax Documentation</td>
+                  <td>Rashed</td>
+                  <td>96%</td>
+                  <td>92%</td>
+                  <td><b>96%</b></td>
+                  <td>
+                    <button class="btn soft" onclick="go('job-detail')">
+                      Review
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Gulshan → Demra</td>
+                  <td>Imran</td>
+                  <td>74%</td>
+                  <td>100%</td>
+                  <td><b>94%</b></td>
+                  <td><button class="btn soft">Notify</button></td>
+                </tr>
+                <tr>
+                  <td>Excel Cleanup</td>
+                  <td>Nabila</td>
+                  <td>99%</td>
+                  <td>Remote</td>
+                  <td><b>93%</b></td>
+                  <td><button class="btn soft">Invite</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="deliveries">
+          <div class="title">
+            <div>
+              <h1>Deliveries / PUDO</h1>
+              <p class="muted">QR/OTP privacy-first chain of custody.</p>
+            </div>
+            <button class="btn primary" onclick="go('delivery-detail')">
+              Track Active
+            </button>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">Active</span><strong>42</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Today</span><strong>186</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">On-time</span><strong>97.8%</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Earnings</span><strong>৳18,640</strong>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Route</th>
+                  <th>Parcels</th>
+                  <th>Partner</th>
+                  <th>Match</th>
+                  <th>Fee</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gulshan → Demra</td>
+                  <td>5</td>
+                  <td>Imran H.</td>
+                  <td>98%</td>
+                  <td>৳100</td>
+                  <td><span class="badge ok">IN PROGRESS</span></td>
+                </tr>
+                <tr>
+                  <td>Banani → Mirpur</td>
+                  <td>3</td>
+                  <td>Rafi</td>
+                  <td>94%</td>
+                  <td>৳80</td>
+                  <td><span class="badge blue">PICKUP</span></td>
+                </tr>
+                <tr>
+                  <td>Dhanmondi → Uttara</td>
+                  <td>8</td>
+                  <td>Sakib</td>
+                  <td>91%</td>
+                  <td>৳160</td>
+                  <td><span class="badge ok">COMPLETED</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="wallet">
+          <div class="title">
+            <div>
+              <h1>Wallet</h1>
+              <p class="muted">Balance, payouts and payment methods.</p>
+            </div>
+            <button
+              class="btn primary"
+              onclick="toast('Withdrawal request created')"
+            >
+              Withdraw Funds
+            </button>
+          </div>
+          <div class="grid2">
+            <div class="card hero">
+              <span class="muted">Available Balance</span>
+              <div class="money">৳28,450.00</div>
+              <span class="muted">Pending ৳4,820 · Total earned ৳2,84,600</span>
+            </div>
+            <div class="card">
+              <h3>Payment Methods</h3>
+              <div class="item">
+                <span>▣ bKash ····4821</span
+                ><span class="badge ok">Primary</span>
+              </div>
+              <div class="item">
+                <span>▣ Bank ····9012</span
+                ><button class="btn outline">Edit</button>
+              </div>
+              <button class="btn soft">+ Add method</button>
+            </div>
+          </div>
+          <div class="card" style="margin-top: 17px">
+            <h3>Recent Transactions</h3>
+            <table class="table">
+              <tr>
+                <th>Reference</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>#TXN-10842</td>
+                <td>Tax Documentation</td>
+                <td>+৳1,350</td>
+                <td><span class="badge ok">RELEASED</span></td>
+              </tr>
+              <tr>
+                <td>#TXN-10841</td>
+                <td>PUDO Delivery</td>
+                <td>+৳100</td>
+                <td><span class="badge ok">RELEASED</span></td>
+              </tr>
+              <tr>
+                <td>#TXN-10840</td>
+                <td>Platform fee</td>
+                <td>-৳150</td>
+                <td><span class="badge blue">SETTLED</span></td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="transactions">
+          <div class="title">
+            <div>
+              <h1>Transaction History</h1>
+              <p class="muted">Complete wallet ledger.</p>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Type</th>
+                  <th>Reference</th>
+                  <th>Amount</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="txns"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="chat">
+          <div class="title">
+            <div>
+              <h1>Messages</h1>
+              <p class="muted">Secure customer-provider conversations.</p>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <div class="item">
+                👤 Nabila · <span class="muted">Can you share the brief?</span
+                ><small>2m</small>
+              </div>
+              <div class="item">
+                👤 Mahin · <span class="muted">Payment is secured.</span
+                ><small>18m</small>
+              </div>
+              <div class="item">
+                👤 Arif · <span class="muted">Job completed.</span
+                ><small>1h</small>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Nabila · Presentation Design</h3>
+              <p class="notice">Hi Rashed, I reviewed your requirements.</p>
+              <p class="notice">Great. Please start with the first draft.</p>
+              <p class="notice">Sure. I will submit it tonight.</p>
+              <input
+                class="search"
+                style="width: 75%"
+                placeholder="Type a message..."
+              />
+              <button class="btn primary" onclick="toast('Message sent')">
+                Send
+              </button>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="notifications">
+          <div class="title">
+            <div>
+              <h1>Notifications</h1>
+              <p class="muted">10 realistic activity notifications.</p>
+            </div>
+            <button class="btn outline" onclick="toast('All marked as read')">
+              Mark all read
+            </button>
+          </div>
+          <div class="card" id="notices"></div>
+        </section>
+        <section class="page" id="profile">
+          <div class="title">
+            <div>
+              <h1>My Profile</h1>
+              <p class="muted">Public provider identity and trust profile.</p>
+            </div>
+            <button class="btn primary" onclick="toast('Profile updated')">
+              Save Changes
+            </button>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <div class="profile">
+                <div class="ava">R</div>
+                <div>
+                  <h2 style="margin: 0">Rashed Rahman</h2>
+                  <p class="muted">Excel & Tax Documentation Specialist</p>
+                  <span class="badge ok">✓ Identity Verified</span>
+                </div>
+              </div>
+              <hr />
+              <h3>Bio</h3>
+              <p class="muted">
+                Detail-focused professional helping SMEs with Excel,
+                documentation and administrative workflows.
+              </p>
+              <h3>Skills</h3>
+              <span class="badge blue">Excel</span>
+              <span class="badge purple">Tax Documentation</span>
+              <span class="badge">Data Entry</span>
+            </div>
+            <div class="card">
+              <h3>Trust & Reliability</h3>
+              <div class="item">
+                <span>Identity</span><b class="up">100%</b>
+              </div>
+              <div class="item">
+                <span>Skill verification</span><b class="up">3 verified</b>
+              </div>
+              <div class="item"><span>Completed jobs</span><b>87</b></div>
+              <div class="item"><span>Repeat clients</span><b>63%</b></div>
+              <div class="item"><span>Cancellation</span><b>1.2%</b></div>
+              <div class="item"><span>Trust score</span><b>94/100</b></div>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="settings">
+          <div class="title">
+            <div>
+              <h1>Settings</h1>
+              <p class="muted">Preferences, privacy and security.</p>
+            </div>
+            <button class="btn primary" onclick="toast('Settings saved')">
+              Save
+            </button>
+          </div>
+          <div class="card">
+            <div class="fg">
+              <div class="field">
+                <label>Full Name</label><input value="Rashed Rahman" />
+              </div>
+              <div class="field">
+                <label>Email</label><input value="rashed@example.com" />
+              </div>
+              <div class="field">
+                <label>Mobile</label><input value="+880 1712-000000" />
+              </div>
+              <div class="field">
+                <label>Language</label
+                ><select>
+                  <option>English</option>
+                  <option>বাংলা</option>
+                </select>
+              </div>
+            </div>
+            <hr />
+            <h3>Security</h3>
+            <div class="item">
+              <span>Two-factor authentication</span
+              ><span class="badge ok">Enabled</span>
+            </div>
+            <div class="item">
+              <span>Login alerts</span><span class="badge ok">Enabled</span>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="admin">
+          <div class="title">
+            <div>
+              <h1>Admin Dashboard</h1>
+              <p class="muted">Platform health, revenue and operations.</p>
+            </div>
+            <button class="btn primary" onclick="go('reports')">
+              Analytics
+            </button>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">GMV</span><strong>৳48.6L</strong
+              ><span class="up">↑24.8%</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Platform Revenue</span><strong>৳4.86L</strong
+              ><span class="up">10% take rate</span>
+            </div>
+            <div class="card stat">
+              <span class="label">Active Users</span><strong>18,492</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Open Disputes</span><strong>23</strong
+              ><span style="color: #d33">Needs review</span>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h3>Revenue Trend</h3>
+              <div class="chart">
+                <i class="bar" style="height: 35%"></i
+                ><i class="bar" style="height: 45%"></i
+                ><i class="bar" style="height: 52%"></i
+                ><i class="bar" style="height: 63%"></i
+                ><i class="bar" style="height: 71%"></i
+                ><i class="bar" style="height: 78%"></i
+                ><i class="bar" style="height: 90%"></i
+                ><i class="bar" style="height: 100%"></i>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Marketplace Health</h3>
+              <div class="item"><span>Jobs fulfilled</span><b>94.2%</b></div>
+              <div class="item"><span>Payment success</span><b>99.1%</b></div>
+              <div class="item"><span>Provider response</span><b>87.6%</b></div>
+              <div class="item"><span>Dispute rate</span><b>0.8%</b></div>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="users">
+          <div class="title">
+            <div>
+              <h1>User Management</h1>
+              <p class="muted">Customers, providers and admins.</p>
+            </div>
+            <button
+              class="btn primary"
+              onclick="toast('Invite link generated')"
+            >
+              + Invite User
+            </button>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Verification</th>
+                  <th>Jobs</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Rashed Rahman</td>
+                  <td>Provider</td>
+                  <td>Verified</td>
+                  <td>87</td>
+                  <td>4.9</td>
+                  <td><span class="badge ok">ACTIVE</span></td>
+                </tr>
+                <tr>
+                  <td>Mahin Ahmed</td>
+                  <td>Customer</td>
+                  <td>Verified</td>
+                  <td>24</td>
+                  <td>4.8</td>
+                  <td><span class="badge ok">ACTIVE</span></td>
+                </tr>
+                <tr>
+                  <td>Nabila Khan</td>
+                  <td>Provider</td>
+                  <td>Pending</td>
+                  <td>42</td>
+                  <td>4.9</td>
+                  <td><span class="badge warn">REVIEW</span></td>
+                </tr>
+                <tr>
+                  <td>Imran Hossain</td>
+                  <td>Provider</td>
+                  <td>Verified</td>
+                  <td>112</td>
+                  <td>4.7</td>
+                  <td><span class="badge ok">ACTIVE</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="verification">
+          <div class="title">
+            <div>
+              <h1>Verification Queue</h1>
+              <p class="muted">Identity, skills and provider evidence.</p>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <tr>
+                <th>Applicant</th>
+                <th>Type</th>
+                <th>Submitted</th>
+                <th>Risk</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <td>Nabila Khan</td>
+                <td>Identity</td>
+                <td>Today</td>
+                <td>Low</td>
+                <td><span class="badge warn">PENDING</span></td>
+                <td>
+                  <button
+                    class="btn soft"
+                    onclick="toast('Verification approved')"
+                  >
+                    Review
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Arif Hasan</td>
+                <td>IT Skill</td>
+                <td>Yesterday</td>
+                <td>Low</td>
+                <td><span class="badge warn">PENDING</span></td>
+                <td><button class="btn soft">Review</button></td>
+              </tr>
+              <tr>
+                <td>Sakib Noor</td>
+                <td>Delivery Partner</td>
+                <td>Yesterday</td>
+                <td>Medium</td>
+                <td><span class="badge warn">PENDING</span></td>
+                <td><button class="btn soft">Review</button></td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="disputes">
+          <div class="title">
+            <div>
+              <h1>Disputes & Resolution</h1>
+              <p class="muted">Evidence-based resolution workflows.</p>
+            </div>
+          </div>
+          <div class="cards">
+            <div class="card stat">
+              <span class="label">Open</span><strong>23</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Under Review</span><strong>9</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Resolved</span><strong>184</strong>
+            </div>
+            <div class="card stat">
+              <span class="label">Avg Resolution</span><strong>9.4h</strong>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <tr>
+                <th>Case</th>
+                <th>Job</th>
+                <th>Raised By</th>
+                <th>Amount</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>#DSP-1042</td>
+                <td>Presentation Design</td>
+                <td>Customer</td>
+                <td>৳900</td>
+                <td>Quality issue</td>
+                <td><span class="badge warn">REVIEW</span></td>
+              </tr>
+              <tr>
+                <td>#DSP-1041</td>
+                <td>Delivery #PD-882</td>
+                <td>Provider</td>
+                <td>৳100</td>
+                <td>Late pickup</td>
+                <td><span class="badge blue">MEDIATION</span></td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="reports">
+          <div class="title">
+            <div>
+              <h1>Reports & Analytics</h1>
+              <p class="muted">Marketplace business intelligence.</p>
+            </div>
+            <button class="btn outline" onclick="toast('Report exported')">
+              Export CSV
+            </button>
+          </div>
+          <div class="grid3">
+            <div class="card">
+              <h3>User Growth</h3>
+              <h2>+18.4%</h2>
+              <p class="muted">Month over month</p>
+            </div>
+            <div class="card">
+              <h3>GMV Growth</h3>
+              <h2>+24.8%</h2>
+              <p class="muted">Month over month</p>
+            </div>
+            <div class="card">
+              <h3>Retention</h3>
+              <h2>71.2%</h2>
+              <p class="muted">30-day retention</p>
+            </div>
+          </div>
+          <div class="card" style="margin-top: 17px">
+            <h3>Monthly Performance</h3>
+            <div class="chart">
+              <i class="bar" style="height: 38%"></i
+              ><i class="bar" style="height: 48%"></i
+              ><i class="bar" style="height: 54%"></i
+              ><i class="bar" style="height: 61%"></i
+              ><i class="bar" style="height: 70%"></i
+              ><i class="bar" style="height: 82%"></i
+              ><i class="bar" style="height: 88%"></i
+              ><i class="bar" style="height: 100%"></i>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="job-detail">
+          <div class="title">
+            <div>
+              <h1>Tax Return Documentation</h1>
+              <p class="muted">ABC Traders · Gulshan · Professional</p>
+            </div>
+            <button
+              class="btn primary"
+              onclick="toast('Application submitted')"
+            >
+              Accept Work · ৳1,500
+            </button>
+          </div>
+          <div class="grid2">
+            <div>
+              <div class="card">
+                <h3>Job Description</h3>
+                <p class="muted">
+                  Prepare tax return documentation using client-provided
+                  information. Final hard copy may be handed over through PUDO.
+                </p>
+                <h3>Requirements</h3>
+                <p>✓ Excel proficiency</p>
+                <p>✓ Tax documentation experience</p>
+                <p>✓ Delivery-ready</p>
+              </div>
+              <div class="card" style="margin-top: 17px">
+                <h3>Smart Match</h3>
+                <div class="progress"><i style="width: 92%"></i></div>
+                <h2>92% Match</h2>
+                <p class="muted">Skill 96% · Availability 90% · Location 88%</p>
+              </div>
+            </div>
+            <div>
+              <div class="card hero">
+                <span class="muted">Budget</span>
+                <div class="money">৳1,500</div>
+                <span class="muted">Payment protected</span>
+              </div>
+              <div class="card" style="margin-top: 17px">
+                <h3>Customer</h3>
+                <div class="profile">
+                  <div class="ava">M</div>
+                  <span
+                    ><b>Mahin Ahmed</b><br /><span class="muted"
+                      >⭐4.8 · 24 hires</span
+                    ></span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="service-detail">
+          <div class="title">
+            <div>
+              <h1>Excel Dashboard & Reporting</h1>
+              <p class="muted">Professional service by Rashed Rahman</p>
+            </div>
+            <button class="btn primary" onclick="toast('Service requested')">
+              Request Service · ৳1,200
+            </button>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h3>What's included</h3>
+              <div class="item"><span>Dashboard design</span><b>✓</b></div>
+              <div class="item"><span>Data cleanup</span><b>✓</b></div>
+              <div class="item"><span>3 revisions</span><b>✓</b></div>
+              <div class="item"><span>48h delivery</span><b>✓</b></div>
+            </div>
+            <div class="card">
+              <h3>Provider</h3>
+              <div class="profile">
+                <div class="ava">R</div>
+                <span
+                  ><b>Rashed Rahman</b><br /><span class="muted"
+                    >⭐4.9 · 87 jobs · Verified</span
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="delivery-detail">
+          <div class="title">
+            <div>
+              <h1>Active Delivery</h1>
+              <p class="muted">Gulshan PUDO → Demra PUDO</p>
+            </div>
+            <span class="badge ok">IN PROGRESS</span>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h3>Chain of Custody</h3>
+              <p>✓ Pickup point · QR scanned</p>
+              <p>● On route · Zero detour</p>
+              <p>○ Drop point · Waiting</p>
+              <button
+                class="btn primary"
+                onclick="toast('Drop QR verified · Payment released')"
+              >
+                Scan Drop QR
+              </button>
+            </div>
+            <div class="card hero">
+              <span class="muted">Delivery earning</span>
+              <div class="money">৳100</div>
+              <span class="muted">5 parcels · 20 min handling</span>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="create-job">
+          <div class="title">
+            <div>
+              <h1>Create Job Request</h1>
+              <p class="muted">Tell the marketplace what you need.</p>
+            </div>
+          </div>
+          <div class="card form">
+            <div class="fg">
+              <div class="field">
+                <label>Category</label
+                ><select>
+                  <option>Tax Documentation</option>
+                  <option>Design</option>
+                  <option>IT Support</option>
+                  <option>Delivery</option>
+                  <option>Tutor</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Budget</label><input value="1500" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Job Title</label><input value="Tax Return Documentation" />
+            </div>
+            <div class="field">
+              <label>Description</label
+              ><textarea>
+Prepare tax return documentation from provided records.</textarea
+              >
+            </div>
+            <div class="fg">
+              <div class="field">
+                <label>Deadline</label><input value="2 days" />
+              </div>
+              <div class="field">
+                <label>Provider Preference</label
+                ><select>
+                  <option>Verified</option>
+                  <option>Nearby</option>
+                  <option>Fastest</option>
+                  <option>Lowest price</option>
+                </select>
+              </div>
+            </div>
+            <button
+              class="btn primary"
+              onclick="
+                toast('Request published · Smart matching started');
+                go('matching');
+              "
+            >
+              Publish Request
+            </button>
+          </div>
+        </section>
+        <section class="page" id="create-service">
+          <div class="title">
+            <div>
+              <h1>Create Service</h1>
+              <p class="muted">Turn a skill into a marketplace offer.</p>
+            </div>
+          </div>
+          <div class="card form">
+            <div class="fg">
+              <div class="field">
+                <label>Service Title</label
+                ><input value="Excel Dashboard & Reporting" />
+              </div>
+              <div class="field">
+                <label>Starting Price</label><input value="1200" />
+              </div>
+              <div class="field">
+                <label>Category</label
+                ><select>
+                  <option>Business</option>
+                  <option>Design</option>
+                  <option>IT</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Delivery Time</label><input value="48 hours" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Description</label
+              ><textarea>
+Professional Excel dashboard, reporting and data cleanup.</textarea
+              >
+            </div>
+            <button
+              class="btn primary"
+              onclick="
+                toast('Service published');
+                go('services');
+              "
+            >
+              Publish Service
+            </button>
+          </div>
+        </section>
+        <section class="page" id="requests">
+          <div class="title">
+            <div>
+              <h1>My Requests</h1>
+              <p class="muted">Track active and completed work.</p>
+            </div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <tr>
+                <th>Request</th>
+                <th>Budget</th>
+                <th>Matches</th>
+                <th>Progress</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>Tax Return Documentation</td>
+                <td>৳1,500</td>
+                <td>7</td>
+                <td>70%</td>
+                <td><span class="badge blue">MATCHING</span></td>
+              </tr>
+              <tr>
+                <td>Presentation Design</td>
+                <td>৳900</td>
+                <td>2</td>
+                <td>100%</td>
+                <td><span class="badge ok">COMPLETED</span></td>
+              </tr>
+              <tr>
+                <td>AC Maintenance</td>
+                <td>৳1,800</td>
+                <td>4</td>
+                <td>35%</td>
+                <td><span class="badge warn">ACTIVE</span></td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="page" id="learning">
+          <div class="title">
+            <div>
+              <h1>Learn & Earn</h1>
+              <p class="muted">
+                Courses connected to marketplace opportunities.
+              </p>
+            </div>
+          </div>
+          <div class="grid3">
+            <div class="card">
+              <span class="badge purple">POPULAR</span>
+              <h3>Advanced Excel</h3>
+              <p class="muted">32 lessons · 4.9 rating</p>
+              <b>৳1,200</b>
+            </div>
+            <div class="card">
+              <span class="badge blue">SKILL</span>
+              <h3>Tax Documentation</h3>
+              <p class="muted">18 lessons · 4.8 rating</p>
+              <b>৳900</b>
+            </div>
+            <div class="card">
+              <span class="badge ok">CAREER</span>
+              <h3>Freelance Basics</h3>
+              <p class="muted">14 lessons · 4.9 rating</p>
+              <b>৳700</b>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script>
+      const jobs = [
+        [
+          "Tax Return Documentation",
+          "Business",
+          "৳1,500",
+          "Gulshan",
+          "2 days",
+          "ACTIVE",
+          92,
+        ],
+        ["Excel Data Cleanup", "Data", "৳850", "Remote", "1 day", "OPEN", 95],
+        [
+          "Presentation Design",
+          "Design",
+          "৳900",
+          "Banani",
+          "3 days",
+          "OPEN",
+          87,
+        ],
+        [
+          "IT Support Visit",
+          "IT",
+          "৳1,200",
+          "Dhanmondi",
+          "Tomorrow",
+          "OPEN",
+          89,
+        ],
+        [
+          "AC Maintenance",
+          "Home Service",
+          "৳1,800",
+          "Uttara",
+          "2 days",
+          "OPEN",
+          84,
+        ],
+        [
+          "Product Photography",
+          "Creative",
+          "৳2,500",
+          "Mirpur",
+          "4 days",
+          "OPEN",
+          82,
+        ],
+        ["English Tutor", "Education", "৳600", "Remote", "Weekly", "OPEN", 91],
+        ["Retail Survey", "Micro Task", "৳250", "Gulshan", "Today", "OPEN", 88],
+        [
+          "Invoice Reconciliation",
+          "Finance",
+          "৳1,100",
+          "Motijheel",
+          "2 days",
+          "OPEN",
+          90,
+        ],
+        ["Logo Refresh", "Design", "৳1,500", "Remote", "3 days", "OPEN", 86],
+      ];
+      const services = [
+        [
+          "Excel Dashboard & Reporting",
+          "Business",
+          "৳1,200",
+          "Rashed",
+          "4.9",
+          "87",
+        ],
+        ["Tax Documentation", "Finance", "৳1,500", "Rashed", "4.9", "87"],
+        ["Presentation Design", "Design", "৳900", "Nabila", "4.9", "42"],
+        ["IT Support & Setup", "IT", "৳1,200", "Arif", "4.8", "65"],
+        ["AC Servicing", "Home", "৳1,800", "Imran", "4.7", "112"],
+        ["Product Photography", "Creative", "৳2,500", "Sakib", "4.9", "38"],
+        ["English Tutoring", "Education", "৳600", "Mitu", "4.8", "54"],
+        ["Video Editing", "Creative", "৳2,000", "Nadia", "4.9", "31"],
+        ["Data Entry", "Business", "৳500", "Farhan", "4.7", "76"],
+        ["Social Media Design", "Marketing", "৳1,000", "Jannat", "4.8", "49"],
+      ];
+      const tx = [
+        [
+          "TXN-10842",
+          "Job income",
+          "Tax Documentation",
+          "+৳1,350",
+          "৳28,450",
+          "RELEASED",
+        ],
+        [
+          "TXN-10841",
+          "Delivery",
+          "PUDO Delivery",
+          "+৳100",
+          "৳27,100",
+          "RELEASED",
+        ],
+        ["TXN-10840", "Fee", "Platform fee", "-৳150", "৳27,000", "SETTLED"],
+        [
+          "TXN-10839",
+          "Job income",
+          "Excel Cleanup",
+          "+৳765",
+          "৳27,150",
+          "RELEASED",
+        ],
+        [
+          "TXN-10838",
+          "Withdrawal",
+          "bKash payout",
+          "-৳5,000",
+          "৳26,385",
+          "COMPLETED",
+        ],
+        [
+          "TXN-10837",
+          "Job income",
+          "Presentation",
+          "+৳810",
+          "৳31,385",
+          "RELEASED",
+        ],
+        ["TXN-10836", "Fee", "Platform fee", "-৳90", "৳30,575", "SETTLED"],
+        ["TXN-10835", "Job income", "Survey", "+৳225", "৳30,665", "RELEASED"],
+        [
+          "TXN-10834",
+          "Withdrawal",
+          "Bank payout",
+          "-৳3,000",
+          "৳30,440",
+          "COMPLETED",
+        ],
+        [
+          "TXN-10833",
+          "Job income",
+          "IT Support",
+          "+৳1,080",
+          "৳33,440",
+          "RELEASED",
+        ],
+      ];
+      function openApp(p) {
+        landing.style.display = "none";
+        app.style.display = "flex";
+        go(p);
+      }
+      function go(p) {
+        document
+          .querySelectorAll(".page")
+          .forEach((x) => x.classList.remove("on"));
+        let e = document.getElementById(p);
+        if (e) e.classList.add("on");
+        document
+          .querySelectorAll(".nav")
+          .forEach((x) => x.classList.toggle("on", x.dataset.p === p));
+        scrollTo(0, 0);
+      }
+      function toast(t) {
+        let e = document.getElementById("toast");
+        e.textContent = t;
+        e.style.display = "block";
+        clearTimeout(window.tt);
+        window.tt = setTimeout(() => (e.style.display = "none"), 2500);
+      }
+      jobs1.innerHTML = jobs
+        .slice(0, 5)
+        .map(
+          (j) =>
+            `<tr onclick="go('job-detail')"><td><b>${j[0]}</b></td><td>Mahin</td><td>${j[2]}</td><td>${j[5]}</td><td><span class="badge ok">${j[6]}%</span></td></tr>`,
+        )
+        .join("");
+      jobs2.innerHTML = jobs
+        .map(
+          (j) =>
+            `<tr onclick="go('job-detail')"><td><b>${j[0]}</b></td><td>${j[1]}</td><td>${j[2]}</td><td>${j[3]}</td><td>${j[4]}</td><td><span class="badge ${j[5] == "ACTIVE" ? "ok" : "blue"}">${j[5]}</span></td></tr>`,
+        )
+        .join("");
+      servicesGrid.innerHTML = services
+        .map(
+          (s) =>
+            `<div class="card"><span class="badge purple">${s[1]}</span><h3>${s[0]}</h3><p class="muted">By ${s[3]} · ⭐${s[4]} · ${s[5]} completed</p><div class="section"><b>${s[2]}</b><button class="btn soft" onclick="go('service-detail')">View</button></div></div>`,
+        )
+        .join("");
+      txns.innerHTML = tx
+        .map(
+          (t) =>
+            `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td><td>${t[4]}</td><td><span class="badge ok">${t[5]}</span></td></tr>`,
+        )
+        .join("");
+      let ns = [
+        "New PUDO opportunity · Gulshan → Demra · ৳100",
+        "Payment released · ৳1,350 added to wallet",
+        "Your profile reached 92% smart match",
+        "Nabila sent you a message",
+        "Verification approved for Excel skill",
+        "New job posted: Excel Data Cleanup · ৳850",
+        "Customer accepted your proposal",
+        "Learning milestone: Advanced Excel lesson 12",
+        "Withdrawal of ৳5,000 completed",
+        "New review received · ⭐5.0",
+      ];
+      notices.innerHTML = ns
+        .map(
+          (n, i) =>
+            `<div class="item"><span><b>${n}</b><br><small class="muted">Today · ${i + 1}h ago</small></span><span class="badge ${i < 3 ? "blue" : ""}">${i < 3 ? "NEW" : "VIEW"}</span></div>`,
+        )
+        .join("");
+      go("dashboard");
+    </script>
+  </body>
+</html>
