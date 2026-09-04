@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/nexa",
+  ...(process.env.NODE_ENV !== "development" && { basePath: "/nexa", assetPrefix: "/nexa" }),
   images: {
     unoptimized: true,
   },
