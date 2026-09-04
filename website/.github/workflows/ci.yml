@@ -62,7 +62,6 @@ jobs:
         with:
           path: website/out
           retention-days: 1
-          name: nexa-pages
 
   deploy:
     name: Deploy to GitHub Pages
