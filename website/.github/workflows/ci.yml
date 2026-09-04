@@ -51,6 +51,9 @@ jobs:
         working-directory: website
         run: npm run build
 
+      - name: Create .nojekyll for GitHub Pages
+        run: touch website/out/.nojekyll
+
       - name: Remove stale public/index.html
         run: rm -f website/public/index.html
 
