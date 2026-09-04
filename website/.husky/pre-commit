@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd website
+npx tsc --noEmit
+npm run lint
