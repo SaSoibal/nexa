@@ -37,13 +37,11 @@ jobs:
         run: |
           cd website
           npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /nexa
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: website/.next/standalone/.next
+          path: website/out
 
       - name: Deploy to GitHub Pages
         id: deployment
